@@ -59,7 +59,7 @@ app.post("/updateprofile", urlparser, (req, res) => {
     con.query(sql, data, (err,result) => {
         if(err) throw err;
     })
-    
+
     con.query('select * from accounts where UserID=1', (err,result) => {
         if(err) throw err;
         res.render('profile', {firstName : result[0].FirstName, lastName : result[0].LastName,
@@ -70,7 +70,7 @@ app.post("/updateprofile", urlparser, (req, res) => {
 //new profile picture
 app.post("/newpfp", urlparser, (req, res) => {
         console.log(req.body.img)
-        
+
         let sql = 'update accounts set ProfilePicture = ? where UserID=1;'
         let data = [req.body.img]
         con.query(sql, data, (err,result) => {
@@ -84,9 +84,27 @@ app.post("/newpfp", urlparser, (req, res) => {
     })
 })
 
+//Delete Post
+app.get('/deletePost/:id', (req, res) => {
+  let sql = `DELETE FROM posts WHERE u_id = ${req.params.id}`;
+  let query = con.query(sql, (err, result) => {
+      if(err) throw err;
+  /*
+  let newTitle = 'Updated Title';
+  let sql = `DELETE FROM posts WHERE u_id = ${req.params.id}`;
+  let query = con.query(sql, (err, result) => {
+      if(err) throw err;
+      let sql = `DELETE FROM my_posts WHERE u_id = ${req.params.id}`;
+      let query = db.query(sql, (err, result) => {
+          if(err) throw err;
+          console.log(result);
+          res.send('Post deleted...'); })
+          */
+    });
+});
+//Change Groups
 
 
 app.listen(8000, () => {
     console.log('server is up and listening');
 });
-
